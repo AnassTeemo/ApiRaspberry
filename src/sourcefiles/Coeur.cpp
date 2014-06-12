@@ -17,6 +17,7 @@
 #include "../headers/Calcul_Chenillard.h"
 #include <signal.h>
 #include <pthread.h>
+#include"../headers/Entree_Distante.h"
 
 
 //Calcul calcul;
@@ -29,7 +30,7 @@ Calcul_Carrefour calcul_Carrefour;
 #ifdef CHENILLARD
 Calcul_Chenillard calcul_chenillard;
 #endif
-
+Entree_Distante entree;
 
 enum state {
 	Initialisation, Execution, ReadAll,WriteAll,Done
@@ -55,31 +56,43 @@ void verification(int sig) {
 		pthread_mutex_unlock(&timer_mutex);
 	} else {
 		signal(SIGALRM, verification);
-		#ifdef CARREFOUR
-		alarm(1);
-		current_state = WriteAll;
-		calcul_Carrefour.writeAll();
-		current_state = Done;
-		#endif
-
-		#ifdef GPIO
-		alarm(6);
-		current_state = ReadAll;
-		calcul_gpio.readAll();
-		current_state = Execution;
-		cout << "Phase Execution " << endl;
-		calcul_gpio.execution();
-		current_state = WriteAll;
-		calcul_gpio.writeAll();
-		current_state = Done;
-		#endif
-
-		#ifdef CHENILLARD
-		alarm(5);
-		current_state = WriteAll;
-		calcul_chenillard.writeAll();
-		current_state = Done;
-		#endif
+	switch (entree.union_Entree_Distante.bit_32)
+		{
+			case 1:
+				{
+				#ifdef CARREFOUR
+				alarm(1);
+				current_state = WriteAll;
+				calcul_Carrefour.writeAll();
+				current_state = Done;
+				#endif
+				}
+		
+			case 2:
+				{
+				#ifdef GPIO
+				alarm(6);
+				current_state = ReadAll;
+				calcul_gpio.readAll();
+				current_state = Execution;
+				cout << "Phase Execution " << endl;
+				calcul_gpio.execution();
+				current_state = WriteAll;
+				calcul_gpio.writeAll();
+				current_state = Done;
+				#endif
+				}
+		
+			case 3:
+				{
+				#ifdef CHENILLARD
+				alarm(5);
+				current_state = WriteAll;
+				calcul_chenillard.writeAll();
+				current_state = Done;
+				#endif
+				}
+		}
 	}
 }
 
