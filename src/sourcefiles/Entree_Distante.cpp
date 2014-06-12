@@ -43,6 +43,7 @@ void Entree_Distante::read()
 
 	union_Entree_Distante.bit_32=somme;
 	union_Entree_Distante.bit.b31=vrr[31];
+	std::cout<<"Haffane : "<< union_Entree_Distante.bit_32 <<"\n";
 }
 
 

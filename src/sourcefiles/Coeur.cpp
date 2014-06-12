@@ -18,7 +18,7 @@
 #include <signal.h>
 #include <pthread.h>
 #include"../headers/Entree_Distante.h"
-
+#include <stdlib.h>
 
 //Calcul calcul;
 #ifdef GPIO
@@ -30,7 +30,7 @@ Calcul_Carrefour calcul_Carrefour;
 #ifdef CHENILLARD
 Calcul_Chenillard calcul_chenillard;
 #endif
-Entree_Distante entree;
+Entree_Distante entreeD;
 
 enum state {
 	Initialisation, Execution, ReadAll,WriteAll,Done
@@ -47,6 +47,7 @@ Coeur::Coeur() {
 }
 
 void Coeur::initialization() {
+	entreeD.initialization();
 	//calcul.initialization();
 }
 
@@ -56,8 +57,10 @@ void verification(int sig) {
 		pthread_mutex_unlock(&timer_mutex);
 	} else {
 		signal(SIGALRM, verification);
-		entree.read();
-	switch (entree.union_Entree_Distante.bit_32)
+		puts("Before Read");
+		entreeD.read();
+		puts("Read Done");
+	switch (entreeD.union_Entree_Distante.bit_32)
 		{
 			case 1:
 				{
@@ -66,8 +69,9 @@ void verification(int sig) {
 				current_state = WriteAll;
 				calcul_Carrefour.writeAll();
 				current_state = Done;
+				puts("CARRE");
 				#endif
-				}
+				}break;
 		
 			case 2:
 				{
@@ -82,17 +86,19 @@ void verification(int sig) {
 				calcul_gpio.writeAll();
 				current_state = Done;
 				#endif
-				}
+				}break;
 		
-			case 3:
+			case 4:
 				{
 				#ifdef CHENILLARD
 				alarm(5);
 				current_state = WriteAll;
 				calcul_chenillard.writeAll();
 				current_state = Done;
+				puts("CHENILL");
 				#endif
-				}
+				}break;
+			default:exit(EXIT_FAILURE);
 		}
 	}
 }
