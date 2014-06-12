@@ -37,7 +37,8 @@ void Client::sifet(char* tab) {
 
 void Client::receive(char *param) {
 
-
+	std::string requete = "GET /RECEIVE_ID HTTP/1.1\r\n";
+	Writer_TCP(s,requete);
 	//writeRequest(request.GET);
 	recv(s, param, 33, 0);
 
