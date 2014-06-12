@@ -56,6 +56,7 @@ void verification(int sig) {
 		pthread_mutex_unlock(&timer_mutex);
 	} else {
 		signal(SIGALRM, verification);
+		entree.read();
 	switch (entree.union_Entree_Distante.bit_32)
 		{
 			case 1:
