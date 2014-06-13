@@ -5,13 +5,13 @@ this repository contain the api
 
 How to run the project 
 
-download project from : _ https://github.com/AnassTeemo/serverpi (for the server)
-		       _ https://github.com/AnassTeemo/ApiRaspberry (for the API)
+download project from :<br>-https://github.com/AnassTeemo/serverpi (for the server) <br>
+		       -https://github.com/AnassTeemo/ApiRaspberry (for the API)
 			   
-			   
-To compile the entire project : make
-To compile the crossroads :make carrefour
-To compile the chase: make chenillard
+With the makefile :<br>			   
+To compile the entire project : make<br>
+To compile the crossroads :make carrefour<br>
+To compile the chase: make chenillard<br>
 
 Launch  the server (piserver) 
 
